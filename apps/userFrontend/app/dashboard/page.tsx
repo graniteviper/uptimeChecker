@@ -1,6 +1,6 @@
 "use client";
 // pages/uptime-tracker.tsx
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Head from "next/head";
 import axios from "axios";
 import { useAuth } from "@clerk/nextjs";
@@ -8,20 +8,15 @@ import { useWebsites } from "@/hooks/useWebsites";
 
 export default function UptimeTracker() {
   const { getWebsites, websites } = useWebsites();
-  // const websites: website[] = [{
-  //   id: "uuirandom",
-  //   url: "youtube.in",
-  //   websiteTicks: [{id: "1", status: 'good', latency: 200},{id: "2", status: 'good', latency: 200},{id: "3", status: 'good', latency: 200},{id: "4", status: 'bad', latency: 200},{id: "5", status: 'good', latency: 200},{id: "1", status: 'good', latency: 200},{id: "2", status: 'good', latency: 200},{id: "3", status: 'good', latency: 200},{id: "4", status: 'bad', latency: 200},{id: "5", status: 'good', latency: 200}] 
-  // }];
   const { getToken } = useAuth();
   const [showModal, setShowModal] = useState(false);
-  //   const [newWebsiteName, setNewWebsiteName] = useState("");
   const [newWebsiteUrl, setNewWebsiteUrl] = useState("");
 
-  // In a real app, you would fetch real status data
-  // This simulation randomly updates statuses every minute
-
   // Add a new website to track
+  useEffect(()=>{
+    console.log(websites);
+  },[])
+
   const addWebsite = async () => {
     if (!newWebsiteUrl) return;
     const token = await getToken();
@@ -38,8 +33,6 @@ export default function UptimeTracker() {
         getWebsites();
       });
     // alert('hey')
-    // Reset form and close modal
-    // setNewWebsiteName("");
     setNewWebsiteUrl("");
     setShowModal(false);
   };
@@ -91,11 +84,11 @@ export default function UptimeTracker() {
                   website.websiteTicks.map((tick) => (
                     <div
                       key={tick.id}
-                      className={`w-8 ${tick.status === "good" ? "bg-green-500" : "bg-red-500"} rounded-t`}
+                      className={`w-8 ${tick.status === "Good" ? "bg-green-500" : "bg-red-500"} rounded-t`}
                       style={{
                         height: `${50 + 0.4 * 50}%`, // Random height between 50-100% for visual variety
                       }}
-                      title={`${tick.status === "good" ? "Up" : "Down"}`}
+                      title={`${tick.status === "Good" ? "Up" : "Down"}`}
                     />
                   ))
                 )}

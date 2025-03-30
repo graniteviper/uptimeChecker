@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 interface tick {
   id: string;
   createdAt?: string;
-  status: "good" | "bad";
+  status: "Good" | "Bad";
   latency: number;
 }
 

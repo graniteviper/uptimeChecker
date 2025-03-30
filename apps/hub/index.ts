@@ -25,11 +25,13 @@ Bun.serve({
             if(data.type === "signup"){
                 try{
                     const details: signupMessage = data.data;
+                    // console.log(details);
                     const verified = await verifyMessage(
                         `Signed message for ${data.data.callbackId}, ${data.data.publicKey}`,
                         data.data.publicKey,
                         data.data.signedMessage
                     );
+                    // console.log(verified);
                     if(!verified){
                         console.error("Not verified.");
                         return;
@@ -53,6 +55,7 @@ Bun.serve({
                             publicKey: details.publicKey,
                             socket: ws
                         })
+                        // console.log(availableValidators);
                         return;
                     }
                     const response = await prismClient.validator.create({
@@ -79,12 +82,13 @@ Bun.serve({
                 }
                 
             } else if(data.type === "validate"){
-                callbacks[data.data.callbackId](data);
+                callbacks[data.data.callbackId](data.data);
                 delete callbacks[data.data.callbackId];
             }
         },
         async close(ws: ServerWebSocket<unknown>){
             availableValidators.splice(availableValidators.findIndex(v=>v.socket === ws),1);
+            // console.log(availableValidators);
         }
     }, // handlers
   });
@@ -120,11 +124,17 @@ setInterval(async () => {
             }))
 
             callbacks[callbackId] = async (data: validatorMessage) => {
+                // console.log("inside");
+                // console.log(`data: ${data.signedMessage}`);
+                // console.log(`validator: ${validator}`);
+                
                 const verified = await verifyMessage(`Replying to ${callbackId}`,validator.publicKey,data.signedMessage);
+                // console.log("after verified");
                 if(!verified){
                     console.error("Not verified");
                     return;
                 }
+
                 await prismClient.$transaction(async (tx)=>{
                     await tx.websiteTicks.create({
                         data:{

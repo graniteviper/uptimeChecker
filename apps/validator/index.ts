@@ -7,15 +7,13 @@ const CALLBACKS: {[callbackId: string]: (data: any) => void} = {}
 
 let validatorId: string | null = null;
 
-async function main() {
-    console.log("Secret key byte length:", Uint8Array.from(JSON.parse(process.env.PRIVATE_KEY!)).byteLength);
-    
-    // Ensure the keypair is created properly
-    const keypair = Keypair.fromSecretKey(
-        Uint8Array.fromBase64(process.env.PRIVATE_KEY!)
-    );
-    const ws = new WebSocket("ws://localhost:8082");
 
+async function main() {
+    // Ensure the keypair is created properly
+    // console.log(Uint8Array.from(JSON.parse(process.env.PRIVATE_KEY!)).byteLength)
+    const keypair = Keypair.fromSecretKey(Uint8Array.from(JSON.parse(process.env.PRIVATE_KEY!)),{skipValidation: true});
+    const ws = new WebSocket("ws://localhost:8081");
+    // console.log("main function called.")
     ws.onmessage = async (event) => {
         const data = JSON.parse(event.data);
         if (data.type === 'signup') {
@@ -28,10 +26,12 @@ async function main() {
 
     ws.onopen = async () => {
         const callbackId = randomUUIDv7();
+        // console.log("uuid generated.")
         CALLBACKS[callbackId] = (data) => {
             validatorId = data.validatorId;
         };
         const signedMessage = await signMessage(`Signed message for ${callbackId}, ${keypair.publicKey}`, keypair);
+        // console.log("messaged signed");
 
         ws.send(JSON.stringify({
             type: 'signup',
@@ -41,7 +41,8 @@ async function main() {
                 publicKey: keypair.publicKey.toBase58(),
                 signedMessage,
             },
-        }));
+        }))
+        // console.log("signed up");
     }
 }
 
