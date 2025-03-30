@@ -1,4 +1,4 @@
-import { v6 as uuidv6 } from 'uuid';
+import { randomUUIDv7 as uuidv6 } from "bun";
 import { prismClient } from "database/client";
 import type { signupMessage, validatorMessage } from 'types/types';
 import type { ServerWebSocket } from 'bun';
@@ -18,7 +18,7 @@ Bun.serve({
       }
       return new Response("Upgrade failed", { status: 500 });
     },
-    port: 8080,
+    port: 8081,
     websocket: {
         async message(ws: ServerWebSocket<unknown>,message: string){
             const data = JSON.parse(message);
