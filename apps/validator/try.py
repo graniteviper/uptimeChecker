@@ -1,7 +1,7 @@
 import base64
 
 # The given string
-input_string = "4Ra8oheR2TPYKjEuw19U3wRywsLnAS27cF1v48T1A79oBXiCweuG6eq2KYLmJkqrUM4rxvfFttssd2xrDtbuzN8H"
+input_string = ""
 
 # Decode the string from base64 to bytes
 decoded_bytes = base64.b64decode(input_string)
