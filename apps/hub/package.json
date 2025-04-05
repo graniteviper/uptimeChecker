@@ -2,6 +2,10 @@
   "name": "hub",
   "module": "index.ts",
   "type": "module",
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": ""
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },
