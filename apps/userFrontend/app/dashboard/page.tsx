@@ -99,7 +99,7 @@ export default function UptimeTracker() {
 
         {websites.length === 0 && (
           <div className="text-center py-8 text-gray-400">
-            No websites added yet. Click "Add Website" to get started.
+            No websites added yet. Click &quot;Add Website&quot; to get started.
           </div>
         )}
       </main>

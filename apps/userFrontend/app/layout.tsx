@@ -9,9 +9,7 @@ import {
 } from "@clerk/nextjs";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Button } from "@/components/ui/button";
 import { ThemeProvider } from "@/components/theme-provider";
-import { Activity } from "lucide-react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
