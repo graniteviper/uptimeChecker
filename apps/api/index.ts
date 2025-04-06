@@ -82,10 +82,15 @@ app.delete("/api/v1/delete/",authMiddleware,async (req,res)=>{
 })
 
 app.post('/api/v1/getkey', authMiddleware, async(req,res)=>{
+    console.log('hi');
+    
     const key = req.body.key;
     if(key){
-        prismClient.validator
+        console.log(key);
+    } else{
+        console.log("no key");
     }
+    return;
 })
 
 app.listen(PORT, ()=>{

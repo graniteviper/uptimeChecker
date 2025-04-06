@@ -3,7 +3,8 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
-    "dev": "next dev --turbopack"
+    "dev": "next dev --turbopack",
+    "build": "bun x tsc -build"
   },
   "devDependencies": {
     "@types/bun": "latest"

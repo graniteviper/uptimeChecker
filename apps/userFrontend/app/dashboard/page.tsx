@@ -1,6 +1,6 @@
 "use client";
 // pages/uptime-tracker.tsx
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Head from "next/head";
 import axios from "axios";
 import { useAuth } from "@clerk/nextjs";
@@ -13,9 +13,6 @@ export default function UptimeTracker() {
   const [newWebsiteUrl, setNewWebsiteUrl] = useState("");
 
   // Add a new website to track
-  useEffect(()=>{
-    console.log(websites);
-  },[])
 
   const addWebsite = async () => {
     if (!newWebsiteUrl) return;
