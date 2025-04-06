@@ -20,7 +20,7 @@ export function useWebsites() {
   const { getToken } = useAuth();
   const getWebsites = async () => {
     const token = await getToken();
-    const response = await axios.get("http://localhost:8080/api/v1/getAll", {
+    const response = await axios.get(`https://uptime-checker-be.vercel.app/api/v1/getAll`, {
       headers: {
         Authorization: token,
       },
