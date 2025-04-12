@@ -1,10 +1,11 @@
 "use client";
 import React, { ReactElement, useState } from 'react';
 import { Activity, Bell, Shield, Clock, ArrowRight, Server, Globe, Zap, AlertTriangle, ChevronUp } from 'lucide-react';
+import { useRouter } from 'next/router';
 
 function App() {
   const [showScrollTop, setShowScrollTop] = useState(false);
-  
+  const router = useRouter();
   // Handle scroll to show/hide scroll-to-top button
   React.useEffect(() => {
     const handleScroll = () => {
@@ -40,7 +41,9 @@ function App() {
               Real-time monitoring, instant alerts, and comprehensive insights for your web applications and services.
             </p>
             <div className="flex space-x-4">
-              <button className="bg-indigo-600 text-white px-8 py-3 rounded-lg hover:bg-indigo-700 transition flex items-center">
+              <button onClick={()=>{
+                router.push('/dashboard')
+              }} className="bg-indigo-600 text-white px-8 py-3 rounded-lg hover:bg-indigo-700 transition flex items-center">
                 Start Monitoring
                 <ArrowRight className="ml-2 h-5 w-5" />
               </button>
