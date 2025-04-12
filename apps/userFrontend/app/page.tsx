@@ -1,7 +1,7 @@
 "use client";
 import React, { ReactElement, useState } from 'react';
 import { Activity, Bell, Shield, Clock, ArrowRight, Server, Globe, Zap, AlertTriangle, ChevronUp } from 'lucide-react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 function App() {
   const [showScrollTop, setShowScrollTop] = useState(false);

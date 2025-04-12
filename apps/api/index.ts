@@ -1,13 +1,23 @@
 // create Website, get all websites status, get website status
 import express from "express"
 import { authMiddleware } from "./middlewares/auth.middleware";
-import { prismClient } from "database/client";
+import { PrismaClient } from "@prisma/client";
 import cors from 'cors';
 const app = express();
 
-app.use(cors({
-    origin: "http://localhost:3000",
-}))
+const prismaClient = new PrismaClient();
+
+app.use(
+    cors({
+      origin: ['https://uptime-checker-py3w.vercel.app','http://localhost:3000'], 
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+      allowedHeaders: ['Content-Type', 'Authorization'],
+      credentials: true,
+    })
+  );
+  
+  // Middleware to handle preflight OPTIONS requests
+  app.options('*', cors());
 app.use(express.json());
 
 const PORT = 8080;
@@ -16,8 +26,8 @@ app.post("/api/v1/create",authMiddleware,async function(req,res){
     const userId = req.userId!;
     const {url} = req.body.data;
     // console.log(req.body);
-    
-    const response = await prismClient.websites.create({
+
+    const response = await prismaClient.websites.create({
         data:{
             userId,
             url
@@ -30,7 +40,7 @@ app.post("/api/v1/create",authMiddleware,async function(req,res){
 
 app.get("/api/v1/getall",authMiddleware,async (req,res)=>{
     const userId = req.userId;
-    const data = await prismClient.websites.findMany({
+    const data = await prismaClient.websites.findMany({
         where: {
             userId,
             disabled: false
@@ -48,7 +58,7 @@ app.get("/api/v1/getall",authMiddleware,async (req,res)=>{
 app.get("/api/v1/getone",authMiddleware,async (req,res)=>{
     const userId = req.userId;
     const websiteId = req.query.websiteId as string;
-    const data = await prismClient.websites.findMany({
+    const data = await prismaClient.websites.findMany({
         where: {
             id: websiteId,
             userId,
@@ -66,7 +76,7 @@ app.get("/api/v1/getone",authMiddleware,async (req,res)=>{
 app.delete("/api/v1/delete/",authMiddleware,async (req,res)=>{
     const websiteId = req.query.websiteId as string;
     const userId = req.userId;
-    await prismClient.websites.update({
+    await prismaClient.websites.update({
         where: {
             id: websiteId,
             userId
@@ -82,14 +92,14 @@ app.delete("/api/v1/delete/",authMiddleware,async (req,res)=>{
 })
 
 app.post('/api/v1/getkey', authMiddleware, async(req,res)=>{
-    console.log('hi');
-    
     const key = req.body.key;
     if(key){
         console.log(key);
-    } else{
-        console.log("no key");
     }
+})
+
+app.get("/health",(req,res)=>{
+    res.send("hi")
     return;
 })
 
