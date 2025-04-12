@@ -2,8 +2,8 @@
 // pages/uptime-tracker.tsx
 import { useState } from "react";
 import Head from "next/head";
-import axios from "axios";
 import { useAuth } from "@clerk/nextjs";
+import axios from "axios";
 import { useWebsites } from "@/hooks/useWebsites";
 
 export default function UptimeTracker() {
