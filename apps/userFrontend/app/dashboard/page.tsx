@@ -47,7 +47,7 @@ export default function UptimeTracker() {
 
         {/* Website list */}
         <div className="space-y-4">
-          {websites.map((website) => (
+          {websites?.map((website) => (
             <div key={website.id} className="bg-gray-700 p-6 rounded-lg shadow">
               <div className="flex justify-between items-center mb-4">
                 <div>
@@ -71,7 +71,7 @@ export default function UptimeTracker() {
                 {website.websiteTicks.length === 0 ? (
                   <div>No Data available</div>
                 ) : (
-                  website.websiteTicks.map((tick) => (
+                  website?.websiteTicks?.map((tick) => (
                     <div
                       key={tick.id}
                       className={`w-8 ${tick.status === "Good" ? "bg-green-500" : "bg-red-500"} rounded-t`}
